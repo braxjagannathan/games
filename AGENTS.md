@@ -50,6 +50,11 @@ Load `/`, then:
   problem.
 - The game writes to `localStorage` (`SandboxelsTempSave`, enabled mods,
   settings); that is per-browser and needs no setup.
+- The upstream PWA registration does not work with this file's CDN `<base>`:
+  `navigator.serviceWorker.register('/service-worker.js')` resolves to the CDN
+  origin and rejects with a `SecurityError` (and no `service-worker.js` sits
+  beside `sandboxels.html`). That call is wrapped in a `try`/`.catch` so a load
+  no longer raises an uncaught error; don't remove the guard.
 - External requests (Google Analytics/AdSense, `news.r74n.com`, Playlight SDK)
   are the upstream page's own; they are not needed for the game to run and
   there is no API key to supply.
